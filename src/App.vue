@@ -1,15 +1,14 @@
 <template>
-<div>hi</div>
-<Bbt></Bbt>
+<div>导航栏 |
+    <router-link to="/">Bbt</router-link> |
+    <router-link to="/xxx">Bbt2</router-link>
+</div>
+<hr>
+<router-view></router-view>
 </template>
 
 <script>
-import Bbt from './components/Bbt.vue'
-
 export default {
     name: 'App',
-    components: {
-        Bbt
-    }
 }
 </script>
