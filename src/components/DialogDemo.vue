@@ -34,19 +34,15 @@ export default {
       x.value = !x.value;
     };
     const f1 = () => {
-      return false;
+      return true;
     };
     const f2 = () => {};
     const showDialog = () => {
       openDialog({
         title: "标题",
         content: "你好",
-        ok(){
-          console.log('ok')
-        },
-        cancel(){
-          console.log('concel')
-        },
+        ok(){},
+        cancel(){},
         closeOnClickOverlay:true
       });
     };
