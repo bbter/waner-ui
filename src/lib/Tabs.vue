@@ -1,21 +1,26 @@
 <template>
   <div class="waner-tabs">
-    <div class="waner-tabs-nav">
+    <div class="waner-tabs-nav" ref="container">
       <div
         class="waner-tabs-nav-item"
-        :ref="el => {if (el) navItems[index] = el}"
+        :ref="
+          (el) => {
+            if (el) navItems[index] = el;
+          }
+        "
         :class="{ selected: t === selected }"
         @click="select(t)"
         v-for="(t, index) in titles"
         :key="index"
       >
-        {{ t }}</div>
-        <div class="waner-tabs-nav-indicator" ref="indicator"></div>
+        {{ t }}
+      </div>
+      <div class="waner-tabs-nav-indicator" ref="indicator"></div>
     </div>
     <div class="waner-tabs-content">
       <component
         :class="{ selected: c.props.title === selected }"
-        v-for="(c,index) in defaults"
+        v-for="(c, index) in defaults"
         :key="index"
         class="waner-tabs-content-item"
         :is="c"
@@ -25,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, onUpdated, ref } from "vue";
 import Tab from "./Tab.vue";
 export default {
   props: {
@@ -35,14 +40,23 @@ export default {
   },
   setup(props, context) {
     const defaults = context.slots.default();
-    const navItems = ref<HTMLDivElement[]>([])
-    const indicator = ref<HTMLDivElement>(null)
-    onMounted(()=>{
-        const divs = navItems.value
-        const result = divs.filter(div=>div.classList.contains('selected'))[0]
-        const {width} = result.getBoundingClientRect()
-        indicator.value.style.width = width + 'px'
-    })
+    const navItems = ref<HTMLDivElement[]>([]);
+    const indicator = ref<HTMLDivElement>(null);
+    const container = ref<HTMLDivElement>(null);
+    const x = () => {
+      const divs = navItems.value;
+      const result = divs.filter((div) =>
+        div.classList.contains("selected")
+      )[0];
+      const { width } = result.getBoundingClientRect();
+      indicator.value.style.width = width + "px";
+      const { left: left1 } = container.value.getBoundingClientRect();
+      const { left: left2 } = result.getBoundingClientRect();
+      const left = left2 - left1;
+      indicator.value.style.left = left + "px";
+    };
+    onMounted(x);
+    onUpdated(x);
     defaults.forEach((tag) => {
       if (tag.type !== Tab) {
         throw new Error("Tabs 子标签必须是Tab");
@@ -59,7 +73,15 @@ export default {
     const select = (title: string) => {
       context.emit("update:selected", title);
     };
-    return { defaults, titles, current, select,navItems,indicator };
+    return {
+      defaults,
+      titles,
+      current,
+      select,
+      navItems,
+      indicator,
+      container,
+    };
   },
 };
 </script>
@@ -85,13 +107,14 @@ $border-color: #d9d9d9;
         color: $blue;
       }
     }
-     &-indicator {
+    &-indicator {
       position: absolute;
       height: 3px;
       background: $blue;
       left: 0;
       bottom: -1px;
       width: 100px;
+      transition: all 250ms;
     }
   }
   &-content {
