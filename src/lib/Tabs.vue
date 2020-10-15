@@ -12,7 +12,13 @@
       </div>
     </div>
     <div class="waner-tabs-content">
-      <component class="waner-tabs-content-item" :is="current" />
+      <component
+        :class="{ selected: c.props.title === selected }"
+        v-for="(c,index) in defaults"
+        :key="index"
+        class="waner-tabs-content-item"
+        :is="c"
+      />
     </div>
   </div>
 </template>
@@ -72,6 +78,12 @@ $border-color: #d9d9d9;
   }
   &-content {
     padding: 8px 0;
+    &-item {
+      display: none;
+      &.selected {
+        display: block;
+      }
+    }
   }
 }
 </style>
