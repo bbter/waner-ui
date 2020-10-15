@@ -4,11 +4,11 @@
     <div class="waner-dialog-wrapper">
       <div class="waner-dialog">
         <header>
-          标题 <span @click="close" class="waner-dialog-close"></span>
+          {{title}}
+          <span @click="close" class="waner-dialog-close"></span>
         </header>
         <main>
-          <p>第一行字</p>
-          <p>第二行字</p>
+          <slot/>
         </main>
         <footer>
           <Button level="main" @click="ok">OK</Button>
@@ -23,6 +23,10 @@
 import Button from "./Button.vue";
 export default {
   props: {
+      title:{
+          type:String,
+          default:'提示'
+      },
     visible: {
       type: Boolean,
       default: false,
