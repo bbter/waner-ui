@@ -1,17 +1,32 @@
 <template>
-    <button class="waner-button" :class="{[`waner-theme-${theme}`]:theme}">
-      <slot />
-    </button>
+  <button class="waner-button" :class="classes">
+    <slot />
+  </button>
 </template>
 
 <script lang="ts">
+import { computed } from "vue";
 export default {
-    props:{
-        theme:{
-            type: String,
-            default:'button'
-        }
-    }
+  props: {
+    theme: {
+      type: String,
+      default: "button",
+    },
+    size: {
+      type: String,
+      default: "normal",
+    },
+  },
+  setup(props) {
+    const { theme,size } = props;
+    const classes = computed(() => {
+      return {
+        [`waner-theme-${theme}`]: theme,
+        [`waner-size-${size}`]: size,
+      };
+    });
+    return {classes}
+  },
 };
 </script>
 
@@ -50,20 +65,34 @@ $radius: 4px;
   &::-moz-focus-inner {
     border: 0;
   }
-  &.waner-theme-link{
+  &.waner-theme-link {
     border-color: transparent;
     box-shadow: none;
     color: $blue;
-    &:hover,&:focus{
+    &:hover,
+    &:focus {
       color: lighten($blue, 10%);
     }
   }
-  &.waner-theme-text{
+  &.waner-theme-text {
     border-color: transparent;
     box-shadow: none;
     color: inherit;
-    &:hover,&:focus{
-      background: darken(white, 5%);;
+    &:hover,
+    &:focus {
+      background: darken(white, 5%);
+    }
+  }
+  &.waner-theme-button{
+    &.waner-size-big{
+      font-size: 24px;
+      height: 48px;
+      padding: 0 16px
+    }
+    &.waner-size-small{
+      font-size: 12px;
+      height: 20px;
+      padding: 0 4px;
     }
   }
 }
