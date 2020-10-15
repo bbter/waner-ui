@@ -45,8 +45,9 @@ export default {
           console.log('ok')
         },
         cancel(){
-
-        }
+          console.log('concel')
+        },
+        closeOnClickOverlay:true
       });
     };
     return { x, toggle, f1, f2, showDialog };
