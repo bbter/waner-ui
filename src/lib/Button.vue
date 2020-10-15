@@ -18,14 +18,14 @@ export default {
     },
   },
   setup(props) {
-    const { theme,size } = props;
+    const { theme, size } = props;
     const classes = computed(() => {
       return {
         [`waner-theme-${theme}`]: theme,
         [`waner-size-${size}`]: size,
       };
     });
-    return {classes}
+    return { classes };
   },
 };
 </script>
@@ -83,17 +83,15 @@ $radius: 4px;
       background: darken(white, 5%);
     }
   }
-  &.waner-theme-button{
-    &.waner-size-big{
-      font-size: 24px;
-      height: 48px;
-      padding: 0 16px
-    }
-    &.waner-size-small{
-      font-size: 12px;
-      height: 20px;
-      padding: 0 4px;
-    }
+  &.waner-size-big {
+    font-size: 24px;
+    height: 48px;
+    padding: 0 16px;
+  }
+  &.waner-size-small {
+    font-size: 12px;
+    height: 20px;
+    padding: 0 4px;
   }
 }
 </style>
