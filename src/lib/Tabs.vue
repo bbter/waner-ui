@@ -61,18 +61,12 @@ export default {
     const titles = defaults.map((tag) => {
       return tag.props.title;
     });
-    const current = computed(() => {
-      return defaults.filter((tag) => {
-        return (tag.props.title = props.selected);
-      })[0];
-    });
     const select = (title: string) => {
       context.emit("update:selected", title);
     };
     return {
       defaults,
       titles,
-      current,
       select,
       selectedItem,
       indicator,
