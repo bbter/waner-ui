@@ -1,5 +1,6 @@
 <template>
-  <button class="waner-button" :class="classes">
+  <button class="waner-button" :class="classes" :disabled="disabled">
+    <span v-if="loading" class="waner-loadingIndicator"></span>
     <slot />
   </button>
 </template>
@@ -20,9 +21,17 @@ export default {
       type: String,
       default: "normal",
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
-    const { theme, size,level } = props;
+    const { theme, size, level } = props;
     const classes = computed(() => {
       return {
         [`waner-theme-${theme}`]: theme,
@@ -42,6 +51,7 @@ $border-color: #d9d9d9;
 $color: #333;
 $red: red;
 $blue: #40a9ff;
+$grey: grey;
 $radius: 4px;
 .waner-button {
   box-sizing: border-box;
@@ -100,7 +110,7 @@ $radius: 4px;
     height: 20px;
     padding: 0 4px;
   }
-   &.waner-theme-button {
+  &.waner-theme-button {
     &.waner-level-main {
       background: $blue;
       color: white;
@@ -146,6 +156,41 @@ $radius: 4px;
         color: darken($red, 10%);
       }
     }
+  }
+  &.waner-theme-button {
+    &[disabled] {
+      cursor: not-allowed;
+      color: $grey;
+      &:hover {
+        border-color: $grey;
+      }
+    }
+  }
+  &.waner-theme-link,
+  &.waner-theme-text {
+    &[disabled] {
+      cursor: not-allowed;
+      color: $grey;
+    }
+  }
+  > .waner-loadingIndicator {
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    margin-right: 4px;
+    border-radius: 8px;
+    border-color: $blue $blue $blue transparent;
+    border-style: solid;
+    border-width: 2px;
+    animation: waner-spin 1s infinite linear;
+  }
+}
+@keyframes waner-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>
