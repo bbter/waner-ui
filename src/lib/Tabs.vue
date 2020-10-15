@@ -3,13 +3,14 @@
     <div class="waner-tabs-nav">
       <div
         class="waner-tabs-nav-item"
+        :ref="el => {if (el) navItems[index] = el}"
         :class="{ selected: t === selected }"
         @click="select(t)"
         v-for="(t, index) in titles"
         :key="index"
       >
         {{ t }}</div>
-        <div class="waner-tabs-nav-indicator"></div>
+        <div class="waner-tabs-nav-indicator" ref="indicator"></div>
     </div>
     <div class="waner-tabs-content">
       <component
@@ -24,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import Tab from "./Tab.vue";
 export default {
   props: {
@@ -34,6 +35,14 @@ export default {
   },
   setup(props, context) {
     const defaults = context.slots.default();
+    const navItems = ref<HTMLDivElement[]>([])
+    const indicator = ref<HTMLDivElement>(null)
+    onMounted(()=>{
+        const divs = navItems.value
+        const result = divs.filter(div=>div.classList.contains('selected'))[0]
+        const {width} = result.getBoundingClientRect()
+        indicator.value.style.width = width + 'px'
+    })
     defaults.forEach((tag) => {
       if (tag.type !== Tab) {
         throw new Error("Tabs 子标签必须是Tab");
@@ -50,7 +59,7 @@ export default {
     const select = (title: string) => {
       context.emit("update:selected", title);
     };
-    return { defaults, titles, current, select };
+    return { defaults, titles, current, select,navItems,indicator };
   },
 };
 </script>
