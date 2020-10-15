@@ -16,10 +16,7 @@ import Button from '../lib/Button.vue'
 export default {
   components:{Button},
   setup(){
-    const onClick = () => {
-      console.log('你好')
-    }
-    return {onClick}
+    
   }
 }
 </script>
