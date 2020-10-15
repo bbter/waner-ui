@@ -1,21 +1,23 @@
 <template>
   <template v-if="visible">
-    <div class="waner-dialog-overlay" @click="onClickOverlay"></div>
-    <div class="waner-dialog-wrapper">
-      <div class="waner-dialog">
-        <header>
-          <slot name="title"/>
-          <span @click="close" class="waner-dialog-close"></span>
-        </header>
-        <main>
-          <slot name="content"/>
-        </main>
-        <footer>
-          <Button level="main" @click="ok">OK</Button>
-          <Button @click="cancel">Cancel</Button>
-        </footer>
+    <Teleport to="body">
+      <div class="waner-dialog-overlay" @click="onClickOverlay"></div>
+      <div class="waner-dialog-wrapper">
+        <div class="waner-dialog">
+          <header>
+            <slot name="title" />
+            <span @click="close" class="waner-dialog-close"></span>
+          </header>
+          <main>
+            <slot name="content" />
+          </main>
+          <footer>
+            <Button level="main" @click="ok">OK</Button>
+            <Button @click="cancel">Cancel</Button>
+          </footer>
+        </div>
       </div>
-    </div>
+    </Teleport>
   </template>
 </template>
 
@@ -31,11 +33,11 @@ export default {
       type: Boolean,
       default: true,
     },
-    ok:{
-        type:Function
+    ok: {
+      type: Function,
     },
-    cancel:{
-        type:Function
+    cancel: {
+      type: Function,
     },
   },
   components: { Button },
@@ -44,20 +46,20 @@ export default {
       context.emit("update:visible", false);
     };
     const onClickOverlay = () => {
-        if(props.closeOnClickOverlay){
-            close()
-        }
-    }
+      if (props.closeOnClickOverlay) {
+        close();
+      }
+    };
     const ok = () => {
-        if(props.ok?.() !== false ){
-            close()
-        }
-    }
+      if (props.ok?.() !== false) {
+        close();
+      }
+    };
     const cancel = () => {
-        context.emit('cancel')
-        close()
-    }
-    return { close,onClickOverlay,ok,cancel };
+      context.emit("cancel");
+      close();
+    };
+    return { close, onClickOverlay, ok, cancel };
   },
 };
 </script>
