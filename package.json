@@ -1,6 +1,6 @@
 {
   "name": "waner-ui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "files": ["dist/lib/*"],
   "main":"dist/lib/waner.js",
   "scripts": {
